@@ -9,7 +9,7 @@ export default function AppFunctional(props) {
   const [click, setClick] = useState(4);
   const [deger, setDeger] = useState(-1);
   const [email, setEmail] = useState("");
-  let x = Math.floor(click / 3) + 1;
+  let x = Math.floor(click / kok) + 1;
   let y = click < kok ? click + 1 : click + 1 - kok * (x - 1);
   const handleEmail = (e) => {
     setEmail(e.target.value);
