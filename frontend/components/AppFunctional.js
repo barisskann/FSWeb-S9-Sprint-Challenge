@@ -3,20 +3,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-// önerilen başlangıç stateleri
-const initialMessage = "";
-const initialEmail = "";
-const initialSteps = 0;
-const initialIndex = 4; //  "B" nin bulunduğu indexi
-
 export default function AppFunctional(props) {
   const dizi = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-  let sayı = 0;
+  const kok = Math.sqrt(dizi.length);
   const [click, setClick] = useState(4);
   const [deger, setDeger] = useState(-1);
   const [email, setEmail] = useState("");
   let x = Math.floor(click / 3) + 1;
-  let y = click < 3 ? click + 1 : click + 1 - 3 * (x - 1);
+  let y = click < kok ? click + 1 : click + 1 - kok * (x - 1);
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -24,18 +18,7 @@ export default function AppFunctional(props) {
   const handleChange = (e) => {
     e.preventDefault();
     axios
-      .post(
-        "http://localhost:9000/api/result",
-        {
-          x,
-          y,
-          steps: deger,
-          email,
-        },
-        {
-         
-        }
-      )
+      .post("http://localhost:9000/api/result", { x, y, steps: deger, email })
       .then((err) => console.log(err))
       .catch((err) => console.log(err));
   };
@@ -46,11 +29,13 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">
+          {" "}
           Koordinatlar ({x},{y})
         </h3>
         <h3 id="steps">{deger} kere ilerlediniz</h3>
       </div>
       <div id="grid">
+        {" "}
         {dizi.map((idx) => (
           <div key={idx} className={`square${idx === click ? " active" : ""}`}>
             {idx === click ? "B" : null}
@@ -63,19 +48,20 @@ export default function AppFunctional(props) {
       <div id="keypad">
         <button
           onClick={() => {
-            setClick(click - 3 > -1 ? click - 3 : click);
+            setClick(click - kok > -1 ? click - kok : click);
           }}
           id="up"
         >
-          YUKARI
+          {" "}
+          YUKARI{" "}
         </button>
         <button
           onClick={() => {
-            setClick(click + 1 < 9 ? click + 1 : click);
+            setClick(click + 1 < dizi.length ? click + 1 : click);
           }}
           id="right"
         >
-          SAĞ
+          SAĞ{" "}
         </button>
         <button
           onClick={() => {
@@ -83,15 +69,17 @@ export default function AppFunctional(props) {
           }}
           id="left"
         >
+          {" "}
           SOL
         </button>
         <button
           onClick={() => {
-            setClick(click + 3 < 9 ? click + 3 : click);
+            setClick(click +  kok < dizi.length ? click + kok : click);
           }}
           id="down"
         >
-          AŞAĞI
+          {" "}
+          AŞAĞI{" "}
         </button>
         <button
           onClick={() => {
@@ -100,9 +88,11 @@ export default function AppFunctional(props) {
           }}
           id="reset"
         >
-          reset
-        </button>
+          {" "}
+          reset{" "}
+        </button>{" "}
       </div>
+
       <form onSubmit={handleChange}>
         <input
           id="email"
